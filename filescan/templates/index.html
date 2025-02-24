@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Management</title>
+    {% load static %}
+    {% comment %} <link rel="stylesheet" href="{% static '/styles.css' %}"> {% endcomment %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            padding: 10px 20px;
+        }
+
+        .navbar .logo {
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .navbar nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        .navbar nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .navbar nav a:hover {
+            background: #555;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+    </style> 
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="logo">FileManager</div>
+        <nav class="navbar navbar-light bg-light" >
+            {% comment %} <div class="container-fluid"> {% endcomment %}
+             <form class = "d-flex" method="POST" id="directory-form">
+                {% csrf_token %}
+                <input class="form-control me-2" type="search" placeholder="Enter Directory Path"  name="directory" id="directory" required>
+                <button class="btn btn-outline-success" type="submit">Save</button>
+            </form>
+            
+            <form method="GET" action="" id="search-form">
+                <input class="form-control me-2" type="text" name="search" id="search" placeholder="Search" value="{{ request.GET.search }}">
+             <button class="btn btn-outline-success" type="submit">Search</button>
+           </form>
+          </nav>
+     </div>
+
+    <div class="container">
+        
+
+ 
+        <div class="file-scans">
+            <h2>Saved Name (Total : {{file_scans|length}}) </h2>
+
+            <ul>
+                {% comment %} {% for file_scan in file_scans %}
+                 {% endcomment %}
+                 {% for file_scan in file_scans|dictsort:"name" %}
+                    <li>{{ file_scan.name }}</li>
+                {% empty %}
+                    <li>No folders found.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>
